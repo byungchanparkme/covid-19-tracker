@@ -5,6 +5,7 @@ import InfoBox from "./InfoBox"
 import Map from "./Map"
 import Table from "./Table"
 import { sortData } from "./util"
+import LineGraph from "./LineGraph"
 
 const App = () => {
   // state는 리액트에서 변수를 작성하는 방법이다.
@@ -47,10 +48,12 @@ const App = () => {
             value: country.countryInfo.iso2, // UK, USA, FR
           }))
 
-          // 이렇게 응답받고 정제한 데이터를 countries 변수에 저장한다.
+          // 이렇게 응답받고 정제한 데이터를 countries state에 저장한다.
           setCountries(countries)
 
+          // table에 필요한 data들은 각 요소의 cases를 비교하여 내림차순으로 정렬한다.
           const sortedData = sortData(data)
+          // 내림차순으로 정렬된 table data들을 tableData state에 저장한다.
           setTableData(sortedData)
         })
     }
@@ -120,6 +123,7 @@ const App = () => {
           {/* Table */}
           <h3>Worldwide new cases</h3>
           {/* Graph */}
+          <LineGraph />
         </CardContent>
       </Card>
     </div>
