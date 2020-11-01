@@ -89,9 +89,9 @@ const App = () => {
 
         <div className="app__stats">
           {/* InfoBox컴포넌트에게 props로 title, cases, total 데이터를 전달해준다. */}
-          <InfoBox title="Coronavirus cases" cases={123} total={2000} />
-          <InfoBox title="Recovered" cases={1234} total={3000} />
-          <InfoBox title="Deaths" cases={12345} total={4000} />
+          <InfoBox title="Coronavirus cases" cases={countryInfo.todayCases} total={countryInfo.cases} />
+          <InfoBox title="Recovered" cases={countryInfo.todayRecovered} total={countryInfo.recovered} />
+          <InfoBox title="Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths} />
         </div>
 
         <Map />
