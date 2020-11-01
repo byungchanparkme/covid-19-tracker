@@ -13,7 +13,15 @@ const App = () => {
   // 각 나라에 대한 코로나 데이터를 저장하는 변수이다.
   const [countryInfo, setCountryInfo] = useState({})
 
-  // https://disease.sh/v3/covid-19/countries
+  // default Setting
+  // 처음에 App 컴포넌트가 화면에 렌더링될 때 전체 나라에 대한 코로나 데이터를 가져와서 status box들에 반영한다.
+  useEffect(() => {
+    fetch("https://disease.sh/v3/covid-19/all")
+      .then((response) => response.json())
+      .then((data) => {
+        setCountryInfo(data)
+      })
+  }, [])
 
   // useEffect : Runs a piece of code based on a given condition
   useEffect(() => {
@@ -22,6 +30,8 @@ const App = () => {
     // when the component loads and not again
 
     // async -> send a request, wait for it, do something with response
+    // 전세계 나라들의 정보를 데이터로 받아온다.
+    // https://disease.sh/v3/covid-19/countries
     const getCountriesData = async () => {
       await fetch("https://disease.sh/v3/covid-19/countries")
         // 응답 데이터를 json으로 변환한다.
