@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { FormControl, MenuItem, Select, Card, CardContent } from "@material-ui/core"
+import { FormControl, MenuItem, Select, Card, CardContent, InputLabel } from "@material-ui/core"
 import "./App.css"
 import InfoBox from "./InfoBox"
 import Map from "./Map"
@@ -8,7 +8,11 @@ const App = () => {
   // state는 리액트에서 변수를 작성하는 방법이다.
   // 다음과 같은 형태로 작성한다.
   const [countries, setCountries] = useState(["USA", "Korea", "India"])
+  // dropdown menu에서 우리가 선택한 countryCode를 저장하는 변수이다.
   const [country, setCountry] = useState("")
+  // 각 나라에 대한 코로나 데이터를 저장하는 변수이다.
+  const [countryInfo, setCountryInfo] = useState({})
+
   // https://disease.sh/v3/covid-19/countries
 
   // useEffect : Runs a piece of code based on a given condition
@@ -38,10 +42,30 @@ const App = () => {
   }, [])
 
   // dropdown 메뉴의 onChange 이벤트(옵션을 클릭하는 행위에 의해 발생)에 따른 핸들러 함수
-  const onCountryChange = (event) => {
+  const onCountryChange = async (event) => {
+    // dropdown 메뉴에서 내가 클릭한 MenuItem의 value 값을 저장하고 있는 변수이다.
     const countryCode = event.target.value
-    // 내가 클릭한 옵션이 무엇인지 리액트가 알도록 state에 저장.
-    setCountry(countryCode)
+
+    const url = countryCode === "worldwide" ? "https://disease.sh/v3/covid-19/all" : `https://disease.sh/v3/covid-19/countries/${countryCode}`
+
+    await fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        // 내가 클릭한 옵션이 무엇인지 리액트가 알도록 state에 저장.
+        setCountry(countryCode)
+
+        // All of the data...
+        // from the country response
+        setCountryInfo(data)
+      })
+
+    // Worldwide를 선택했을 때는
+    // https://disease.sh/v3/covid-19/all
+    // 이 url로 요청을 보내서 세계 전체에 대한 데이터를 받아온다.
+
+    // 이외에 다른 나라들을 선택했을 때는
+    // https://disease.sh/v3/covid-19/countries/[COUNTRY_CODE]
+    // 각 나라의 country_code를 넣어서 각 나라에 대한 데이터를 받아온다.
   }
   return (
     <div className="app">
@@ -52,7 +76,7 @@ const App = () => {
           {/* Dropdown Menu */}
           <FormControl className="app__dropdown">
             {/* value 값의 변화에 따라 화면에 보여지는 드롭다운 메뉴의 값이 내가 클릭한 값으로 바뀐다. */}
-            <Select variant="outlined" value="worldwide" value={country} onChange={onCountryChange}>
+            <Select labelId="countries" variant="outlined" value="worldwide" value={country} onChange={onCountryChange}>
               {/* default Option */}
               <MenuItem value="worldwide">WorldWide</MenuItem>
               {/* Loop through all the countries and show a drop down list of the options */}

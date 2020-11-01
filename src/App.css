@@ -6,6 +6,12 @@ body {
   background-color: #f5f6fa;
 }
 
+.app {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px;
+}
+
 .app__header {
   display: flex;
   align-items: center;
@@ -13,6 +19,20 @@ body {
   margin-bottom: 20px;
 }
 
+.app__left {
+  /* app__left가 화면의 90%를 차지한다. */
+  flex: 0.9;
+}
+
 .app__stats {
   display: flex;
+  justify-content: space-between;
+}
+
+/* mobile breakpoint */
+@media (max-width: 990px) {
+  /* 화면이 990px 이하로 줄어들 때, app__right 부분이 아래로 내려간다. */
+  .app {
+    flex-direction: column;
+  }
 }
