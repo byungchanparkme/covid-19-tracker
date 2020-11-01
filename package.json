@@ -6,7 +6,7 @@
   "author": "\"Ronny\"",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack serve",
+    "dev": "webpack serve --open --hot",
     "build": "webpack --config webpack.config.js"
   },
   "dependencies": {

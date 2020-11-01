@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { FormControl, MenuItem, Select } from "@material-ui/core"
 import "./App.css"
+import InfoBox from "./InfoBox"
 
 const App = () => {
   // state는 리액트에서 변수를 작성하는 방법이다.
@@ -60,12 +61,12 @@ const App = () => {
         </FormControl>
       </div>
 
-      {/* Header */}
-      {/* Title + Select input dropdown filed */}
-
-      {/* InfoBox */}
-      {/* InfoBox */}
-      {/* InfoBox */}
+      <div className="app__stats">
+        {/* InfoBox컴포넌트에게 props로 title, cases, total 데이터를 전달해준다. */}
+        <InfoBox title="Coronavirus cases" cases={123} total={2000} />
+        <InfoBox title="Recovered" cases={1234} total={3000} />
+        <InfoBox title="Deaths" cases={12345} total={4000} />
+      </div>
 
       {/* Table */}
       {/* Graph */}
