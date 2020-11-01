@@ -4,6 +4,7 @@ import "./App.css"
 import InfoBox from "./InfoBox"
 import Map from "./Map"
 import Table from "./Table"
+import { sortData } from "./util"
 
 const App = () => {
   // state는 리액트에서 변수를 작성하는 방법이다.
@@ -46,9 +47,11 @@ const App = () => {
             value: country.countryInfo.iso2, // UK, USA, FR
           }))
 
-          setTableData(data)
           // 이렇게 응답받고 정제한 데이터를 countries 변수에 저장한다.
           setCountries(countries)
+
+          const sortedData = sortData(data)
+          setTableData(sortedData)
         })
     }
 
