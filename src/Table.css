@@ -1,0 +1,22 @@
+.table {
+  margin-top: 20px;
+  /* 콘텐츠가 높이에 비해 넘쳐날 때 자동으로 y방향으로 스크롤이 생기도록 한다. */
+  overflow: scroll;
+  height: 400px;
+  color: #6a5d5d;
+}
+
+.table tr {
+  /* tr의 너비가 부모 요소를 기준으로 100%가 된다. */
+  display: flex;
+  justify-content: space-between;
+}
+
+.table td {
+  padding: 0.5rem;
+}
+
+/* 모든 홀수 tr 태그에 대해서 */
+.table tr:nth-of-type(odd) {
+  background-color: #f3f2f8;
+}

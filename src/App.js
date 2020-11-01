@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { FormControl, MenuItem, Select, Card, CardContent, InputLabel } from "@material-ui/core"
+import { FormControl, MenuItem, Select, Card, CardContent } from "@material-ui/core"
 import "./App.css"
 import InfoBox from "./InfoBox"
 import Map from "./Map"
+import Table from "./Table"
 
 const App = () => {
   // state는 리액트에서 변수를 작성하는 방법이다.
@@ -12,6 +13,7 @@ const App = () => {
   const [country, setCountry] = useState("")
   // 각 나라에 대한 코로나 데이터를 저장하는 변수이다.
   const [countryInfo, setCountryInfo] = useState({})
+  const [tableData, setTableData] = useState([])
 
   // default Setting
   // 처음에 App 컴포넌트가 화면에 렌더링될 때 전체 나라에 대한 코로나 데이터를 가져와서 status box들에 반영한다.
@@ -43,6 +45,8 @@ const App = () => {
             name: country.country, // United States, United Kingdom
             value: country.countryInfo.iso2, // UK, USA, FR
           }))
+
+          setTableData(data)
           // 이렇게 응답받고 정제한 데이터를 countries 변수에 저장한다.
           setCountries(countries)
         })
@@ -109,6 +113,7 @@ const App = () => {
       <Card className="app__right">
         <CardContent>
           <h3>Live Cases by Country</h3>
+          <Table countries={tableData} />
           {/* Table */}
           <h3>Worldwide new cases</h3>
           {/* Graph */}
