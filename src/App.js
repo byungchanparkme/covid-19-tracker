@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { FormControl, MenuItem, Select } from "@material-ui/core"
+import { FormControl, MenuItem, Select, Card, CardContent } from "@material-ui/core"
 import "./App.css"
 import InfoBox from "./InfoBox"
+import Map from "./Map"
 
 const App = () => {
   // state는 리액트에서 변수를 작성하는 방법이다.
@@ -44,34 +45,41 @@ const App = () => {
   }
   return (
     <div className="app">
-      <div className="app__header">
-        <h1>COVID 19 TRACKER</h1>
-        {/* className을 명명하는 방식 : BEM */}
-        {/* Dropdown Menu */}
-        <FormControl className="app__dropdown">
-          {/* value 값의 변화에 따라 화면에 보여지는 드롭다운 메뉴의 값이 내가 클릭한 값으로 바뀐다. */}
-          <Select variant="outlined" value="worldwide" value={country} onChange={onCountryChange}>
-            {/* default Option */}
-            <MenuItem value="worldwide">WorldWide</MenuItem>
-            {/* Loop through all the countries and show a drop down list of the options */}
-            {countries.map((country) => (
-              <MenuItem value={country.value}>{country.name}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+      <div className="app__left">
+        <div className="app__header">
+          <h1>COVID 19 TRACKER</h1>
+          {/* className을 명명하는 방식 : BEM */}
+          {/* Dropdown Menu */}
+          <FormControl className="app__dropdown">
+            {/* value 값의 변화에 따라 화면에 보여지는 드롭다운 메뉴의 값이 내가 클릭한 값으로 바뀐다. */}
+            <Select variant="outlined" value="worldwide" value={country} onChange={onCountryChange}>
+              {/* default Option */}
+              <MenuItem value="worldwide">WorldWide</MenuItem>
+              {/* Loop through all the countries and show a drop down list of the options */}
+              {countries.map((country) => (
+                <MenuItem value={country.value}>{country.name}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+
+        <div className="app__stats">
+          {/* InfoBox컴포넌트에게 props로 title, cases, total 데이터를 전달해준다. */}
+          <InfoBox title="Coronavirus cases" cases={123} total={2000} />
+          <InfoBox title="Recovered" cases={1234} total={3000} />
+          <InfoBox title="Deaths" cases={12345} total={4000} />
+        </div>
+
+        <Map />
       </div>
-
-      <div className="app__stats">
-        {/* InfoBox컴포넌트에게 props로 title, cases, total 데이터를 전달해준다. */}
-        <InfoBox title="Coronavirus cases" cases={123} total={2000} />
-        <InfoBox title="Recovered" cases={1234} total={3000} />
-        <InfoBox title="Deaths" cases={12345} total={4000} />
-      </div>
-
-      {/* Table */}
-      {/* Graph */}
-
-      {/* Map */}
+      <Card className="app__right">
+        <CardContent>
+          <h3>Live Cases by Country</h3>
+          {/* Table */}
+          <h3>Worldwide new cases</h3>
+          {/* Graph */}
+        </CardContent>
+      </Card>
     </div>
   )
 }
