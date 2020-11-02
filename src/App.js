@@ -118,10 +118,10 @@ const App = () => {
       </div>
       <Card className="app__right">
         <CardContent>
-          <h3>Live Cases by Country</h3>
+          <h3 className="table__title">Live Cases by Country</h3>
           <Table countries={tableData} />
           {/* Table */}
-          <h3>Worldwide new cases</h3>
+          <h3 className="graph__title">Worldwide new cases</h3>
           {/* Graph */}
           <LineGraph />
         </CardContent>
