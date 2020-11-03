@@ -83,8 +83,8 @@ const App = () => {
         // from the country response
         setCountryInfo(data)
 
-        setMapCenter((center) => center.slice(2).concat([data.countryInfo.lat, data.countryInfo.long]))
-        setMapZoom(8)
+        setMapCenter([data.countryInfo.lat, data.countryInfo.long])
+        setMapZoom(4)
       })
 
     // Worldwide를 선택했을 때는
@@ -95,13 +95,8 @@ const App = () => {
     // https://disease.sh/v3/covid-19/countries/[COUNTRY_CODE]
     // 각 나라의 country_code를 넣어서 각 나라에 대한 데이터를 받아온다.
   }
-  const onClickHandler = () => {
-    setMapCenter([30, -120])
-    setMapZoom(8)
-  }
   return (
     <div className="app">
-      <button onClick={onClickHandler}>Click</button>
       <div className="app__left">
         <div className="app__header">
           <h1>COVID 19 TRACKER</h1>
