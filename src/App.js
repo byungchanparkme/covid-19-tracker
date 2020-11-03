@@ -6,6 +6,7 @@ import Map from "./Map"
 import Table from "./Table"
 import { sortData } from "./util"
 import LineGraph from "./LineGraph"
+import "leaflet/dist/leaflet.css"
 
 const App = () => {
   // state는 리액트에서 변수를 작성하는 방법이다.
@@ -16,6 +17,10 @@ const App = () => {
   // 각 나라에 대한 코로나 데이터를 저장하는 변수이다.
   const [countryInfo, setCountryInfo] = useState({})
   const [tableData, setTableData] = useState([])
+  // 지도에 설정할 중심부를 가리킨다. 위도와 경도 값을 필요로 한다.
+  const [mapCenter, setMapCenter] = useState([34.80746, -40.4796])
+  // 지도가 어느 정도의 확대 비율로 보일 것인가를 의미한다.
+  const [mapZoom, setMapZoom] = useState(3)
 
   // default Setting
   // 처음에 App 컴포넌트가 화면에 렌더링될 때 전체 나라에 대한 코로나 데이터를 가져와서 status box들에 반영한다.
@@ -77,6 +82,9 @@ const App = () => {
         // All of the data...
         // from the country response
         setCountryInfo(data)
+
+        setMapCenter((center) => center.slice(2).concat([data.countryInfo.lat, data.countryInfo.long]))
+        setMapZoom(8)
       })
 
     // Worldwide를 선택했을 때는
@@ -87,8 +95,13 @@ const App = () => {
     // https://disease.sh/v3/covid-19/countries/[COUNTRY_CODE]
     // 각 나라의 country_code를 넣어서 각 나라에 대한 데이터를 받아온다.
   }
+  const onClickHandler = () => {
+    setMapCenter([30, -120])
+    setMapZoom(8)
+  }
   return (
     <div className="app">
+      <button onClick={onClickHandler}>Click</button>
       <div className="app__left">
         <div className="app__header">
           <h1>COVID 19 TRACKER</h1>
@@ -114,7 +127,7 @@ const App = () => {
           <InfoBox title="Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths} />
         </div>
 
-        <Map />
+        <Map center={mapCenter} zoom={mapZoom} />
       </div>
       <Card className="app__right">
         <CardContent>
