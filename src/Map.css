@@ -12,3 +12,28 @@
   /* 높이값을 설정해야 지도가 화면에 보인다. 기본적으로는 높이가 0인 상태이다.  */
   height: 100%;
 }
+
+.info-flag {
+  height: 80px;
+  width: 100%;
+  background-size: cover;
+  border-radius: 8px;
+}
+
+.info-flag img {
+  width: 100px;
+  border-radius: 5px;
+}
+
+.info-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #555;
+  margin-top: 8px;
+}
+.info-confirmed,
+.info-recovered,
+.info-deaths {
+  font-size: 16px;
+  margin-top: 8px;
+}

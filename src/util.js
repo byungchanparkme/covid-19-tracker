@@ -36,6 +36,9 @@ export const sortData = (data) => {
   return sortedData
 }
 
+// InfoBox에서 매일 늘어나는 각 case들의 수의 형식 설정
+export const prettyPrintStat = (stat) => (stat ? `+${numeral(stat).format("0.0a")}` : "+0")
+
 // draw circles on the map with interactive tooltip
 export const showDataOnMap = (data, casesType = "cases") =>
   data.map((country) => (
@@ -48,7 +51,13 @@ export const showDataOnMap = (data, casesType = "cases") =>
       radius={Math.sqrt(country[casesType]) * casesTypeColors[casesType].multiplier}
     >
       <Popup>
-        <h1>IM A POPUP</h1>
+        <div className="info-container">
+          <div className="info-flag" style={{ backgroundImage: `url(${country.countryInfo.flag})` }}></div>
+          <div className="info-name">{country.country}</div>
+          <div className="info-confirmed">Cases: {numeral(country.cases).format("0,0")}</div>
+          <div className="info-recovered">Recovered: {numeral(country.recovered).format("0,0")}</div>
+          <div className="info-deaths">Deaths: {numeral(country.deaths).format("0,0")}</div>
+        </div>
       </Popup>
     </Circle>
   ))

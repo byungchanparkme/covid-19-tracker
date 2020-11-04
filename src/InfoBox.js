@@ -1,5 +1,7 @@
 import React from "react"
 import { Card, CardContent, Typography } from "@material-ui/core"
+import "./InfoBox.css"
+import { prettyPrintStat } from "./util"
 
 // props를 구조분해를 이용하여 가져올 수 있다.
 function InfoBox({ title, cases, total }) {
@@ -12,7 +14,7 @@ function InfoBox({ title, cases, total }) {
         </Typography>
 
         {/* +120k Number of cases */}
-        <h2 className="infoBox__cases">{cases}</h2>
+        <h2 className="infoBox__cases">{prettyPrintStat(cases)}</h2>
 
         {/* 1.2M Total */}
         <Typography className="infoBox__total" color="textSecondary">
