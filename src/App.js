@@ -21,6 +21,7 @@ const App = () => {
   const [mapCenter, setMapCenter] = useState([34.80746, -40.4796])
   // 지도가 어느 정도의 확대 비율로 보일 것인가를 의미한다.
   const [mapZoom, setMapZoom] = useState(3)
+  const [mapCountries, setMapCountries] = useState([])
 
   // default Setting
   // 처음에 App 컴포넌트가 화면에 렌더링될 때 전체 나라에 대한 코로나 데이터를 가져와서 status box들에 반영한다.
@@ -60,6 +61,8 @@ const App = () => {
           const sortedData = sortData(data)
           // 내림차순으로 정렬된 table data들을 tableData state에 저장한다.
           setTableData(sortedData)
+          // 모든 나라별 데이터를 전부 저장한다.
+          setMapCountries(data)
         })
     }
 
@@ -122,7 +125,7 @@ const App = () => {
           <InfoBox title="Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths} />
         </div>
 
-        <Map center={mapCenter} zoom={mapZoom} />
+        <Map countries={mapCountries} center={mapCenter} zoom={mapZoom} />
       </div>
       <Card className="app__right">
         <CardContent>
