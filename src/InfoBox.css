@@ -1,6 +1,13 @@
 /* 모든 infoBox가 너비를 꽉 채운다. */
 .infoBox {
   flex: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.infoBox:hover {
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .infoBox:not(:last-child) {
@@ -10,11 +17,20 @@
 .infoBox--green {
   border-top: 10px solid #008000;
 }
+.infoBox--green .infoBox__title {
+  color: #008000 !important;
+}
 .infoBox--blue {
   border-top: 10px solid #0033cc;
 }
+.infoBox--blue .infoBox__title {
+  color: #0033cc !important;
+}
 .infoBox--red {
   border-top: 10px solid #cc3300;
+}
+.infoBox--red .infoBox__title {
+  color: #cc3300 !important;
 }
 
 .infoBox__cases {

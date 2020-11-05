@@ -1,15 +1,25 @@
 * {
   margin: 0;
+  box-sizing: border-box;
 }
 
 body {
   background-color: #f5f6fa;
+  transition: background-color 0.1s;
 }
 
 .app {
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   padding: 20px;
+  background-color: #f5f6fa;
+  transition: background-color 0.1s;
+}
+
+.app--dark {
+  background-color: #26242e;
+  color: #fff;
 }
 
 .app__header {
@@ -17,6 +27,24 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+}
+
+.app__header-right {
+  display: flex;
+  flex: 0.6;
+  align-items: center;
+}
+
+.app__dropdown {
+  width: 45% !important;
+  min-width: auto !important;
+  height: 2.8rem !important;
+  flex-direction: row !important;
+  font-size: 1vw !important;
+}
+.app__dropdown > div {
+  border-radius: 100px !important;
+  width: 200px !important;
 }
 
 .app__left {

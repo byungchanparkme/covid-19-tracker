@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import "./Map.css"
 import { MapContainer as LeafletMap, TileLayer, useMap } from "react-leaflet"
 import { ShowDataOnMap } from "./util"
@@ -16,7 +16,7 @@ function Map({ center, zoom, countries, casesType }) {
     <div className="map">
       {/* center는 지도의 초기 상태에서의 중심을 의미하고, zoom은 어느 정도의 비율로 확대되어 있는지를 의미한다. */}
       {/* center와 zoom attribute는 처음에 설정하고 난 이후 값이 바뀐다 하더라도 초기 상태값을 유지한다. */}
-      <LeafletMap center={center} zoom={zoom}>
+      <LeafletMap center={center} zoom={zoom} bounds={([], [])}>
         <ChangeView center={center} zoom={zoom} />
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' />
         {/* Loop through countries and draw circles */}

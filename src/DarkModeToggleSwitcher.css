@@ -1,0 +1,56 @@
+label,
+.toggle {
+  height: 2.8rem;
+  border-radius: 100px;
+}
+label {
+  width: 45%;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 100px;
+  position: relative;
+  cursor: pointer;
+  margin-left: 10%;
+}
+.toggle {
+  position: absolute;
+  width: 50%;
+  background-color: #fff;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.names {
+  font-size: 1vw;
+  font-weight: bold;
+  width: 65%;
+  margin-left: 17.5%;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  display: flex;
+  justify-content: space-between;
+  user-select: none;
+}
+.dark {
+  opacity: 0.5;
+}
+.mark {
+  border-radius: 100px;
+  background-color: black;
+}
+
+/* -------- Switch Styles ------------*/
+input[type="checkbox"] {
+  display: none;
+}
+/* Toggle */
+.app--dark .toggle {
+  transform: translateX(100%);
+  background-color: #34323d;
+}
+.app--dark .light {
+  opacity: 0.3;
+}
+
+.app--dark .dark {
+  opacity: 1;
+}

@@ -7,13 +7,14 @@ import Table from "./Table"
 import { sortData } from "./util"
 import LineGraph from "./LineGraph"
 import "leaflet/dist/leaflet.css"
+import DarkModeToggleSwitcher from "./DarkModeToggleSwitcher"
 
 const App = () => {
   // state는 리액트에서 변수를 작성하는 방법이다.
   // 다음과 같은 형태로 작성한다.
   const [countries, setCountries] = useState(["USA", "Korea", "India"])
   // dropdown menu에서 우리가 선택한 countryCode를 저장하는 변수이다.
-  const [country, setCountry] = useState("")
+  const [country, setCountry] = useState("worldwide")
   // 각 나라에 대한 코로나 데이터를 저장하는 변수이다.
   const [countryInfo, setCountryInfo] = useState({})
   const [tableData, setTableData] = useState([])
@@ -25,6 +26,8 @@ const App = () => {
   const [mapCountries, setMapCountries] = useState([])
   // 각 infoBox를 클릭했을 때 각 case를 식별하기 위해 이를 저장해둔다.
   const [casesType, setCasesType] = useState("cases")
+  // Dark Mode와 Light Mode의 상태 체크를 해주는 state이다.
+  const [isChecked, setIsChecked] = useState(false)
 
   // default Setting
   // 처음에 App 컴포넌트가 화면에 렌더링될 때 전체 나라에 대한 코로나 데이터를 가져와서 status box들에 반영한다.
@@ -72,6 +75,15 @@ const App = () => {
     getCountriesData()
   }, [])
 
+  // dark mode이면 화면이 어두워지고 light mode이면 화면이 밝아진다.
+  useEffect(() => {
+    if (isChecked) {
+      document.body.style.backgroundColor = "#26242e"
+    } else {
+      document.body.style.backgroundColor = "#f5f6fa"
+    }
+  }, [isChecked])
+
   // dropdown 메뉴의 onChange 이벤트(옵션을 클릭하는 행위에 의해 발생)에 따른 핸들러 함수
   const onCountryChange = async (event) => {
     // dropdown 메뉴에서 내가 클릭한 MenuItem의 value 값을 저장하고 있는 변수이다.
@@ -90,7 +102,7 @@ const App = () => {
         setCountryInfo(data)
 
         setMapCenter([data.countryInfo.lat, data.countryInfo.long])
-        setMapZoom(4)
+        setMapZoom(5)
       })
 
     // Worldwide를 선택했을 때는
@@ -101,24 +113,26 @@ const App = () => {
     // https://disease.sh/v3/covid-19/countries/[COUNTRY_CODE]
     // 각 나라의 country_code를 넣어서 각 나라에 대한 데이터를 받아온다.
   }
+
   return (
-    <div className="app">
+    <div className={`app ${isChecked ? "app--dark" : ""}`}>
       <div className="app__left">
         <div className="app__header">
           <h1>COVID 19 TRACKER</h1>
-          {/* className을 명명하는 방식 : BEM */}
-          {/* Dropdown Menu */}
-          <FormControl className="app__dropdown">
-            {/* value 값의 변화에 따라 화면에 보여지는 드롭다운 메뉴의 값이 내가 클릭한 값으로 바뀐다. */}
-            <Select labelId="countries" variant="outlined" value="worldwide" value={country} onChange={onCountryChange}>
-              {/* default Option */}
-              <MenuItem value="worldwide">WorldWide</MenuItem>
-              {/* Loop through all the countries and show a drop down list of the options */}
-              {countries.map((country) => (
-                <MenuItem value={country.value}>{country.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <div className="app__header-right">
+            <FormControl className="app__dropdown">
+              {/* value 값의 변화에 따라 화면에 보여지는 드롭다운 메뉴의 값이 내가 클릭한 값으로 바뀐다. */}
+              <Select labelId="countries" variant="outlined" value={country} onChange={onCountryChange}>
+                {/* default Option */}
+                <MenuItem value="worldwide">WorldWide</MenuItem>
+                {/* Loop through all the countries and show a drop down list of the options */}
+                {countries.map((country) => (
+                  <MenuItem value={country.value}>{country.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <DarkModeToggleSwitcher isChecked={isChecked} setIsChecked={setIsChecked} />
+          </div>
         </div>
 
         <div className="app__stats">
@@ -135,7 +149,7 @@ const App = () => {
           <h3 className="table__title">Live Cases by Country</h3>
           <Table countries={tableData} />
           {/* Table */}
-          <h3 className="graph__title">Worldwide Past 4 Months Status</h3>
+          <h3 className="graph__title">Worldwide Past 4 Months {casesType.slice(0, 1).toUpperCase() + casesType.slice(1)}</h3>
           {/* Graph */}
           <LineGraph cases={casesType} />
         </CardContent>
