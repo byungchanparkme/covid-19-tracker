@@ -21,7 +21,10 @@ const App = () => {
   const [mapCenter, setMapCenter] = useState([34.80746, -40.4796])
   // 지도가 어느 정도의 확대 비율로 보일 것인가를 의미한다.
   const [mapZoom, setMapZoom] = useState(3)
+  // 각 나라에 대한 정보를 저장하고 있다.
   const [mapCountries, setMapCountries] = useState([])
+  // 각 infoBox를 클릭했을 때 각 case를 식별하기 위해 이를 저장해둔다.
+  const [casesType, setCasesType] = useState("cases")
 
   // default Setting
   // 처음에 App 컴포넌트가 화면에 렌더링될 때 전체 나라에 대한 코로나 데이터를 가져와서 status box들에 반영한다.
@@ -120,21 +123,21 @@ const App = () => {
 
         <div className="app__stats">
           {/* InfoBox컴포넌트에게 props로 title, cases, total 데이터를 전달해준다. */}
-          <InfoBox title="Coronavirus cases" cases={countryInfo.todayCases} total={countryInfo.cases} />
-          <InfoBox title="Recovered" cases={countryInfo.todayRecovered} total={countryInfo.recovered} />
-          <InfoBox title="Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths} />
+          <InfoBox isBlue={casesType === "cases"} onClick={(e) => setCasesType("cases")} title="Coronavirus cases" cases={countryInfo.todayCases} total={countryInfo.cases} />
+          <InfoBox isGreen={casesType === "recovered"} onClick={(e) => setCasesType("recovered")} title="Recovered" cases={countryInfo.todayRecovered} total={countryInfo.recovered} />
+          <InfoBox isRed={casesType === "deaths"} onClick={(e) => setCasesType("deaths")} title="Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths} />
         </div>
 
-        <Map countries={mapCountries} center={mapCenter} zoom={mapZoom} />
+        <Map casesType={casesType} countries={mapCountries} center={mapCenter} zoom={mapZoom} />
       </div>
       <Card className="app__right">
         <CardContent>
           <h3 className="table__title">Live Cases by Country</h3>
           <Table countries={tableData} />
           {/* Table */}
-          <h3 className="graph__title">Worldwide new cases</h3>
+          <h3 className="graph__title">Worldwide Past 4 Months Status</h3>
           {/* Graph */}
-          <LineGraph />
+          <LineGraph cases={casesType} />
         </CardContent>
       </Card>
     </div>

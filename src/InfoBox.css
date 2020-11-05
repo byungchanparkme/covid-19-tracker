@@ -7,11 +7,30 @@
   margin-right: 15px;
 }
 
+.infoBox--green {
+  border-top: 10px solid #008000;
+}
+.infoBox--blue {
+  border-top: 10px solid #0033cc;
+}
+.infoBox--red {
+  border-top: 10px solid #cc3300;
+}
+
 .infoBox__cases {
-  color: #cc1034;
   font-weight: 600;
   font-size: 1.75rem;
   margin-bottom: 0.5rem;
+}
+
+.infoBox--green .infoBox__cases {
+  color: #008000;
+}
+.infoBox--blue .infoBox__cases {
+  color: #0033cc;
+}
+.infoBox--red .infoBox__cases {
+  color: #cc3300;
 }
 
 .infoBox__total {

@@ -1,17 +1,17 @@
 import React from "react"
 import "./Map.css"
 import { MapContainer as LeafletMap, TileLayer, useMap } from "react-leaflet"
-import { showDataOnMap } from "./util"
+import { ShowDataOnMap } from "./util"
 
 // 어떤 event가 일어나서 center를 옮길 경우 MapContainer 하위에 있는 Map 인스턴스를 이용한다.
-function ChangeView({ countries, center, zoom }) {
+function ChangeView({ center, zoom }) {
   const map = useMap()
   // map 인스턴스의 panTo 메서드는 변한 center 값으로 지도의 center를 이동시켜준다.
   map.setView(center, zoom)
   return null
 }
 
-function Map({ center, zoom, countries }) {
+function Map({ center, zoom, countries, casesType }) {
   return (
     <div className="map">
       {/* center는 지도의 초기 상태에서의 중심을 의미하고, zoom은 어느 정도의 비율로 확대되어 있는지를 의미한다. */}
@@ -20,7 +20,7 @@ function Map({ center, zoom, countries }) {
         <ChangeView center={center} zoom={zoom} />
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' />
         {/* Loop through countries and draw circles */}
-        {showDataOnMap(countries)}
+        {countries && <ShowDataOnMap countries={countries} casesType={casesType} />}
       </LeafletMap>
     </div>
   )

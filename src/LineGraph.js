@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from "react"
-import { Line, defaults } from "react-chartjs-2"
+import { Line } from "react-chartjs-2"
 import numeral from "numeral"
 
 import "./LineGraph.css"
 
-function LineGraph() {
+function LineGraph({ cases }) {
   const [data, setData] = useState([])
   const [labels, setLabels] = useState([])
-  const chartRef = useRef(null)
+  const [bgColor, setBgColor] = useState("#144a90")
 
   // 주어진 데이터에는 크게 3가지의 케이스가 있다.
   const buildChartData = (data, casesType = "cases") => {
@@ -40,25 +40,9 @@ function LineGraph() {
     return labelData
   }
 
-  // 각 legend를 클릭하면 그 legend의 데이터만 그래프에 나타난다. 나머지 legend의 데이터들은 사라진다.
-  const onLegendClick = function (e, legendItem) {
-    // index는 내가 클릭한 legend의 index 번호이다.
-    var index = legendItem.datasetIndex
-    var ci = this.chart
-    const length = ci.data.datasets.length
-
-    for (let i = 0; i < length; i++) {
-      ci.data.datasets[i].hidden = index === i ? null : true
-    }
-
-    ci.update()
-  }
-
   const options = {
     legend: {
-      display: true, // label 숨기기
-      position: "bottom",
-      onClick: onLegendClick,
+      display: false, // label 숨기기
     },
     elements: {
       point: {
@@ -104,6 +88,16 @@ function LineGraph() {
     },
   }
 
+  const changeChartLineColor = () => {
+    if (cases === "recovered") {
+      setBgColor("#008c48")
+    } else if (cases === "deaths") {
+      setBgColor("#d81f26")
+    } else if (cases === "cases") {
+      setBgColor("#185aa9")
+    }
+  }
+
   // https://disease.sh/v3/
   // covid-19/historical/all?lastdays=120
 
@@ -113,20 +107,18 @@ function LineGraph() {
       await fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
         .then((response) => response.json())
         .then((data) => {
+          let chartData = buildChartData(data, cases)
           // cases, recovered, deaths의 데이터를 그래프의 데이터에 들어갈 수 있도록 조작하여 data state에 저장한다.
-          Object.keys(data).forEach((situation) => {
-            let chartData = buildChartData(data, situation)
-            setData((data) => [...data, chartData])
-          })
+          setData(chartData)
 
           const labelData = buildLabelData(data)
           setLabels(labelData)
         })
     }
     fetchData()
-
-    console.log(chartRef.current)
-  }, [])
+    // infoBox 클릭에 따라 cases가 변하는데 각 case마다 차트에서 색깔이 달라진다.
+    changeChartLineColor()
+  }, [cases])
 
   return (
     <div className="graph-container">
@@ -134,30 +126,13 @@ function LineGraph() {
       {/* data?.length > 0 => data && data.length > 0과 같은 의미이다. */}
       {data?.length > 0 && (
         <Line
-          ref={chartRef}
           data={{
             labels: labels,
             datasets: [
               {
-                label: "cases",
-                backgroundColor: "#0040ff",
-                borderColor: "#0033cc",
-                data: data[0],
-                fill: false,
-              },
-              {
-                label: "recovered",
-                backgroundColor: "#00cc00",
-                borderColor: "#009900",
-                data: data[2],
-                fill: false,
-              },
-              {
-                label: "deaths",
-                backgroundColor: "#ff4000",
-                borderColor: "#cc3300",
-                data: data[1],
-                fill: false,
+                backgroundColor: bgColor,
+                data: data,
+                fill: true,
               },
             ],
           }}

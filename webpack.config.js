@@ -82,5 +82,6 @@ module.exports = {
     port: 3000,
     // open page when start
     open: true,
+    publicPath: "/",
   },
 }
